@@ -1,17 +1,12 @@
-import { FormEvent } from "react";
 import Button from "./Button";
 import { IHeader } from "../models/props/IHeader";
 
 const Header = (props: IHeader) => {
-  const onClick = (e: FormEvent) => {
-    console.log(e.target);
-  };
-
-  const { title } = props;
+  const { title, onAdd } = props;
   return (
     <header className="header">
       <h1 className="title">{title}</h1>
-      <Button text="Add" onClick={onClick} />
+      <Button text="Add" onClick={onAdd} />
     </header>
   );
 };

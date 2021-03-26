@@ -1,25 +1,54 @@
-const AddTask = () => {
+import { useState } from "react";
+import { IAddTask } from "../models/props/IAddTask";
+import { FormEvent } from "react";
+
+const AddTask = (props: IAddTask) => {
+  const onAdd = props.onAdd;
+
+  const [text, setText] = useState("");
+  const [day, setDay] = useState("");
+  const [reminder, setReminder] = useState(false);
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!text) {
+      alert("Add a task");
+      return;
+    }
+    onAdd({ text, day, reminder });
+    // Clears all input
+    setText("");
+    setDay("");
+    setReminder(false);
+  };
+
   return (
-    <form className="add-form">
+    <form className="add-form" onSubmit={onSubmit}>
       <div className="form-control">
-        <div className="field">
-          <label className="label">Item</label>
-          <div className="control">
-            <input className="input" type="text" placeholder="Add item" />
-          </div>
-          <label className="label">Day</label>
-          <div className="control">
-            <input className="input" type="text" placeholder="Add item" />
-          </div>
+        <label>Item</label>
+        <input
+          type="text"
+          placeholder="Add Item"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <label>Day</label>
+        <input
+          type="text"
+          placeholder="Add Item"
+          value={day}
+          onChange={(e) => setDay(e.target.value)}
+        />
+        <div className="form-control-check">
           <label>Set reminder</label>
-          <label className="checkbox">
-            <input type="checkbox" />
-            Save my preferences
-          </label>
-          <button className="button is-link is-light" value="saved todo">
-            Save my preferences
-          </button>
+          <input
+            type="checkbox"
+            checked={reminder}
+            value={reminder.toString()}
+            onChange={(e) => setReminder(e.currentTarget.checked)}
+          />
         </div>
+        <input className="btn btn-block" type="submit" value="Saved todo" />
       </div>
     </form>
   );

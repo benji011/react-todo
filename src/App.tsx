@@ -3,10 +3,38 @@ import Tasks from "./components/Tasks";
 import { useState } from "react";
 import { tasks as taskData } from "./data/tasks";
 import AddTask from "./components/AddTask";
+import { ITask } from "./models/ITask";
 
 function App() {
+  const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState(taskData);
 
+  /**
+   * Get a new task id by reading the max task.id + 1
+   *
+   * @returns A number type task id
+   */
+  const getNewTaskId = (): number => {
+    return (
+      Math.max.apply(
+        Math,
+        tasks.map(function (o: ITask) {
+          return o.id;
+        })
+      ) + 1
+    );
+  };
+
+  /**
+   * Adds task
+   *
+   * @param task An ITask typed object with the task ID, text, day and reminder values.
+   */
+  const addTask = (task: ITask) => {
+    const id: number = getNewTaskId();
+    const newTask: ITask = { ...task, id };
+    setTasks([...tasks, newTask]);
+  };
   /**
    * Delete task
    *
@@ -31,8 +59,8 @@ function App() {
 
   return (
     <div className="container is-widescreen">
-      <Header title="To do" />
-      <AddTask />
+      <Header title="To do" onAdd={() => setShowAddTask(!showAddTask)} />
+      {showAddTask && <AddTask onAdd={addTask} />}
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
       ) : (
