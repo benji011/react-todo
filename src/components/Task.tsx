@@ -6,21 +6,17 @@ const Task = (props: ITask) => {
 
   return (
     <div
-      className={`task card ${task.reminder ? "reminder" : ""}`}
+      className={`task ${task.reminder ? "reminder" : ""}`}
       onDoubleClick={() => onToggle(task.id)}
     >
-      <div className="card-content">
-        <div className="content">
-          <h3>
-            {task.text}{" "}
-            <FaTimes
-              style={{ color: "red", cursor: "pointer" }}
-              onClick={() => onDelete(task.id)}
-            />
-          </h3>
-          <p>{task.day}</p>
-        </div>
-      </div>
+      <h3>
+        {task.text}{" "}
+        <FaTimes
+          style={{ color: "red", cursor: "pointer" }}
+          onClick={() => onDelete(task.id)}
+        />
+      </h3>
+      <p>{task.day}</p>
     </div>
   );
 };

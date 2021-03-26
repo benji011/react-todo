@@ -2,11 +2,15 @@ import Button from "./Button";
 import { IHeader } from "../models/props/IHeader";
 
 const Header = (props: IHeader) => {
-  const { title, onAdd } = props;
+  const { title, onAdd, showAdd } = props;
   return (
     <header className="header">
       <h1 className="title">{title}</h1>
-      <Button text="Add" onClick={onAdd} />
+      <Button
+        showAdd={showAdd}
+        text={showAdd ? "Cancel" : "Add"}
+        onClick={onAdd}
+      />
     </header>
   );
 };

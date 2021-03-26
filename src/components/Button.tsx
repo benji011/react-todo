@@ -1,9 +1,12 @@
 import { IButton } from "../models/props/IButton";
 
 const Button = (props: IButton) => {
-  const { text, onClick } = props;
+  const { text, onClick, showAdd } = props;
   return (
-    <button className="button is-primary" onClick={() => onClick()}>
+    <button
+      className={showAdd ? "button is-danger" : "button is-primary"}
+      onClick={() => onClick()}
+    >
       {text}
     </button>
   );

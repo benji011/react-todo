@@ -27,6 +27,7 @@ const AddTask = (props: IAddTask) => {
       <div className="form-control">
         <label>Item</label>
         <input
+          className="input is-normal"
           type="text"
           placeholder="Add Item"
           value={text}
@@ -34,6 +35,7 @@ const AddTask = (props: IAddTask) => {
         />
         <label>Day</label>
         <input
+          className="input is-normal"
           type="text"
           placeholder="Add Item"
           value={day}
@@ -48,7 +50,7 @@ const AddTask = (props: IAddTask) => {
             onChange={(e) => setReminder(e.currentTarget.checked)}
           />
         </div>
-        <input className="btn btn-block" type="submit" value="Saved todo" />
+        <input className="button is-primary" type="submit" value="Saved todo" />
       </div>
     </form>
   );
