@@ -1,28 +1,34 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
-import { useState } from "react";
-import { tasks as taskData } from "./data/tasks";
+import { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
 import { ITask } from "./models/ITask";
 
 function App() {
+  const defaultTasks: ITask[] = [];
   const [showAddTask, setShowAddTask] = useState(false);
-  const [tasks, setTasks] = useState(taskData);
+  const [tasks, setTasks] = useState(defaultTasks);
 
   /**
-   * Get a new task id by reading the max task.id + 1
-   *
-   * @returns A number type task id
+   * Get tasks from our JSON db
+   * Note: By default, effects run after every completed render.
    */
-  const getNewTaskId = (): number => {
-    return (
-      Math.max.apply(
-        Math,
-        tasks.map(function (o: ITask) {
-          return o.id;
-        })
-      ) + 1
-    );
+  useEffect(() => {
+    const getTasks = async () => {
+      const tasks: ITask[] = await fetchTasks();
+      setTasks(tasks);
+    };
+    getTasks();
+  }, []);
+
+  /**
+   * An async function that fetches the todo list items from JSON db
+   *
+   */
+  const fetchTasks = async () => {
+    const res: Response = await fetch("http://localhost:3001/data");
+    const data = await res.json();
+    return data;
   };
 
   /**
@@ -30,17 +36,27 @@ function App() {
    *
    * @param task An ITask typed object with the task ID, text, day and reminder values.
    */
-  const addTask = (task: ITask) => {
-    const id: number = getNewTaskId();
-    const newTask: ITask = { ...task, id };
-    setTasks([...tasks, newTask]);
+  const addTask = async (task: ITask) => {
+    const res: Response = await fetch("http://localhost:3001/data", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(task),
+    });
+    const data: ITask = await res.json();
+    setTasks([...tasks, data]);
   };
+
   /**
    * Delete task
    *
    * @param id ID of a task
    */
-  const deleteTask = (id: number) => {
+  const deleteTask = async (id: number) => {
+    await fetch(`http://localhost:3001/data/${id}`, {
+      method: "DELETE",
+    });
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
