@@ -7,16 +7,22 @@
       "reminder": true
     },
     {
-      "id": 2,
-      "text": "Wash the car",
-      "day": "3/26/2022",
-      "reminder": false
-    },
-    {
       "text": "Drink some protein",
       "day": "2021-03-27",
-      "reminder": true,
+      "reminder": false,
       "id": 3
+    },
+    {
+      "text": "Eat breakfast",
+      "day": "2021-03-28",
+      "reminder": true,
+      "id": 4
+    },
+    {
+      "text": "Write Django app for W&B",
+      "day": "2021-03-27",
+      "reminder": true,
+      "id": 5
     }
   ]
 }

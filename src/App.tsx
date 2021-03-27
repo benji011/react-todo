@@ -23,10 +23,20 @@ function App() {
 
   /**
    * An async function that fetches the todo list items from JSON db
-   *
    */
   const fetchTasks = async () => {
     const res: Response = await fetch("http://localhost:3001/data");
+    const data = await res.json();
+    return data;
+  };
+
+  /**
+   * An async function that fetches a single task from a todo list
+   * items from JSON db
+   *
+   */
+  const fetchTask = async (id: number) => {
+    const res: Response = await fetch(`http://localhost:3001/data/${id}`);
     const data = await res.json();
     return data;
   };
@@ -65,10 +75,22 @@ function App() {
    *
    * @param id ID of a task
    */
-  const toggleReminder = (id: number) => {
+  const toggleReminder = async (id: number) => {
+    const task: ITask = await fetchTask(id);
+    const updatedTask: ITask = { ...task, reminder: !task.reminder };
+
+    const res: Response = await fetch(`http://localhost:3001/data/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    });
+    const data: ITask = await res.json();
+
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task.id === id ? { ...task, reminder: data.reminder } : task
       )
     );
   };
