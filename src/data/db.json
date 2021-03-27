@@ -13,10 +13,10 @@
       "reminder": false
     },
     {
-      "id": 3,
-      "text": "Cook dinner",
-      "day": "3/26/2023",
-      "reminder": true
+      "text": "Drink some protein",
+      "day": "2021-03-27",
+      "reminder": true,
+      "id": 3
     }
   ]
 }
