@@ -1,7 +1,10 @@
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import About from "./components/About";
 import Tasks from "./components/Tasks";
-import { useState, useEffect } from "react";
 import AddTask from "./components/AddTask";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ITask } from "./models/ITask";
 
 function App() {
@@ -96,19 +99,35 @@ function App() {
   };
 
   return (
-    <div className="container is-widescreen">
-      <Header
-        title="To do"
-        onAdd={() => setShowAddTask(!showAddTask)}
-        showAdd={showAddTask}
-      />
-      {showAddTask && <AddTask onAdd={addTask} />}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
-      ) : (
-        <h3>No items left</h3>
-      )}
-    </div>
+    <Router>
+      <div className="container is-widescreen">
+        <Header
+          title="To do"
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAdd={showAddTask}
+        />
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <>
+              {showAddTask && <AddTask onAdd={addTask} />}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                  onDelete={deleteTask}
+                  onToggle={toggleReminder}
+                />
+              ) : (
+                <h3>No items left</h3>
+              )}
+            </>
+          )}
+        />
+        <Route path="/about" component={About} />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
