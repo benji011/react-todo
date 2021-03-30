@@ -1,4 +1,4 @@
-import { FaTimes } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { ITask } from "../models/props/ITask";
 
 const Task = (props: ITask) => {
@@ -11,8 +11,8 @@ const Task = (props: ITask) => {
     >
       <h3>
         {task.text}{" "}
-        <FaTimes
-          style={{ color: "red", cursor: "pointer" }}
+        <FaTrash
+          style={{ color: "grey", cursor: "pointer" }}
           onClick={() => onDelete(task.id)}
         />
       </h3>
