@@ -6,6 +6,10 @@
 
 A simple todo web app built with ReactJS in TypeScript, styled with Bulma & uses Supabase as it's backend API on production deployed on [Vercel](https://react-todo-benjaminlo.vercel.app/)
 
+<a align="center">
+<img src="./public/img/supabase-db.png"/>
+</a>
+
 ## Usage
 
 ```bash
