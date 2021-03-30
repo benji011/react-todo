@@ -5,6 +5,7 @@ const Header = (props: IHeader) => {
   const { title, onAdd, showAdd } = props;
   return (
     <header className="header">
+      <img className="header-img" src="img/todo.svg" alt="header" />
       <h1 className="title">{title}</h1>
       <Button
         showAdd={showAdd}
@@ -18,8 +19,5 @@ const Header = (props: IHeader) => {
 Header.defaultProps = {
   title: "Task tracker",
 };
-
-// CSS Custom styles in JS
-// const heading: object = { color: "red", backgroundColor: "black" };
 
 export default Header;

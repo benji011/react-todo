@@ -4,18 +4,12 @@
   padding: 0;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-}
-
 .container {
-  max-width: 500px;
   margin: 30px auto;
   overflow: auto;
   min-height: 300px;
   border: 1px solid #00d1b2;
   padding: 30px;
-  border-radius: 5px;
 }
 
 .header {
@@ -75,6 +69,10 @@ body {
 .form-control-check input {
   flex: 2;
   height: 20px;
+}
+
+.header-img {
+  max-width: 200px;
 }
 
 footer {

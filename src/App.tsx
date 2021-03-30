@@ -114,7 +114,7 @@ function App() {
 
   return (
     <Router>
-      <div className="container is-widescreen">
+      <div className="container is-max-desktop">
         <Header
           title="To do"
           onAdd={() => setShowAddTask(!showAddTask)}
