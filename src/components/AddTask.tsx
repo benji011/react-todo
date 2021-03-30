@@ -36,8 +36,7 @@ const AddTask = (props: IAddTask) => {
         <label>Day</label>
         <input
           className="input is-normal"
-          type="text"
-          placeholder="Add Item"
+          type="date"
           value={day}
           onChange={(e) => setDay(e.target.value)}
         />

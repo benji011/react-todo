@@ -6,13 +6,12 @@ import AddTask from "./components/AddTask";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ITask } from "./models/ITask";
+import { API_URL, API_KEY, BEARER_TOKEN } from "./constants";
 
 function App() {
   const defaultTasks: ITask[] = [];
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState(defaultTasks);
-
-  const apiUrl: string = process.env.REACT_APP_API_URL!;
 
   /**
    * Get tasks from our JSON db
@@ -24,14 +23,13 @@ function App() {
       setTasks(tasks);
     };
     getTasks();
-    // eslint-disable-next-line
   }, []);
 
   /**
    * An async function that fetches the todo list items from JSON db
    */
   const fetchTasks = async () => {
-    const res: Response = await fetch(apiUrl);
+    const res: Response = await fetch(`${API_URL}?select=*&${API_KEY}`);
     const data = await res.json();
     return data;
   };
@@ -42,9 +40,9 @@ function App() {
    *
    */
   const fetchTask = async (id: number) => {
-    const res: Response = await fetch(apiUrl + id);
+    const res: Response = await fetch(`${API_URL}?id=eq.${id}&${API_KEY}`);
     const data = await res.json();
-    return data;
+    return data[0];
   };
 
   /**
@@ -53,15 +51,20 @@ function App() {
    * @param task An ITask typed object with the task ID, text, day and reminder values.
    */
   const addTask = async (task: ITask) => {
-    const res: Response = await fetch(apiUrl, {
+    const res: Response = await fetch(`${API_URL}?${API_KEY}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        Authorization: BEARER_TOKEN,
+        Prefer: "return=representation",
       },
       body: JSON.stringify(task),
     });
-    const data: ITask = await res.json();
-    setTasks([...tasks, data]);
+    await res.json().then((data: ITask[]) => {
+      if (res.ok) {
+        setTasks([...tasks, data[0]]);
+      }
+    });
   };
 
   /**
@@ -70,8 +73,12 @@ function App() {
    * @param id ID of a task
    */
   const deleteTask = async (id: number) => {
-    await fetch(apiUrl + id, {
+    await fetch(`${API_URL}?id=eq.${id}&${API_KEY}`, {
       method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: BEARER_TOKEN,
+      },
     });
     setTasks(tasks.filter((task) => task.id !== id));
   };
@@ -84,21 +91,25 @@ function App() {
   const toggleReminder = async (id: number) => {
     const task: ITask = await fetchTask(id);
     const updatedTask: ITask = { ...task, reminder: !task.reminder };
-
-    const res: Response = await fetch(apiUrl + id, {
+    const res: Response = await fetch(`${API_URL}?id=eq.${id}&${API_KEY}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
+        Authorization: BEARER_TOKEN,
+        Prefer: "return=representation",
       },
       body: JSON.stringify(updatedTask),
     });
-    const data: ITask = await res.json();
 
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
-      )
-    );
+    await res.json().then((data: ITask[]) => {
+      if (res.ok) {
+        setTasks(
+          tasks.map((task) =>
+            task.id === id ? { ...task, reminder: data[0].reminder } : task
+          )
+        );
+      }
+    });
   };
 
   return (
