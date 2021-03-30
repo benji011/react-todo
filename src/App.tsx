@@ -12,6 +12,8 @@ function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState(defaultTasks);
 
+  const apiUrl: string = process.env.REACT_APP_API_URL!;
+
   /**
    * Get tasks from our JSON db
    * Note: By default, effects run after every completed render.
@@ -22,13 +24,14 @@ function App() {
       setTasks(tasks);
     };
     getTasks();
+    // eslint-disable-next-line
   }, []);
 
   /**
    * An async function that fetches the todo list items from JSON db
    */
   const fetchTasks = async () => {
-    const res: Response = await fetch("http://localhost:3001/data");
+    const res: Response = await fetch(apiUrl);
     const data = await res.json();
     return data;
   };
@@ -39,7 +42,7 @@ function App() {
    *
    */
   const fetchTask = async (id: number) => {
-    const res: Response = await fetch(`http://localhost:3001/data/${id}`);
+    const res: Response = await fetch(apiUrl + id);
     const data = await res.json();
     return data;
   };
@@ -50,7 +53,7 @@ function App() {
    * @param task An ITask typed object with the task ID, text, day and reminder values.
    */
   const addTask = async (task: ITask) => {
-    const res: Response = await fetch("http://localhost:3001/data", {
+    const res: Response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -67,7 +70,7 @@ function App() {
    * @param id ID of a task
    */
   const deleteTask = async (id: number) => {
-    await fetch(`http://localhost:3001/data/${id}`, {
+    await fetch(apiUrl + id, {
       method: "DELETE",
     });
     setTasks(tasks.filter((task) => task.id !== id));
@@ -82,7 +85,7 @@ function App() {
     const task: ITask = await fetchTask(id);
     const updatedTask: ITask = { ...task, reminder: !task.reminder };
 
-    const res: Response = await fetch(`http://localhost:3001/data/${id}`, {
+    const res: Response = await fetch(apiUrl + id, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
