@@ -1,28 +1,10 @@
 {
   "data": [
     {
-      "id": 1,
-      "text": "Buy some more bananas",
-      "day": "3/26/2021",
-      "reminder": true
-    },
-    {
-      "text": "Drink some protein",
-      "day": "2021-03-27",
+      "text": "Testing locally",
+      "day": "2021-03-11",
       "reminder": false,
-      "id": 3
-    },
-    {
-      "text": "Eat breakfast",
-      "day": "2021-03-28",
-      "reminder": true,
-      "id": 4
-    },
-    {
-      "text": "Write Django app for W&B",
-      "day": "2021-03-27",
-      "reminder": true,
-      "id": 5
+      "id": 1
     }
   ]
 }

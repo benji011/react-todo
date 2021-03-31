@@ -1,4 +1,5 @@
 import { API_URL, API_KEY, BEARER_TOKEN } from "../constants";
+import { isDevMode } from "../utils";
 
 /**
  * Delete task
@@ -6,10 +7,9 @@ import { API_URL, API_KEY, BEARER_TOKEN } from "../constants";
  * @param id ID of a task
  */
 export const deleteTaskData = async (id: number) => {
-  const url: string =
-    process.env.NODE_ENV === "development"
-      ? API_URL + id
-      : `${API_URL}?id=eq.${id}&${API_KEY}`;
+  const url: string = isDevMode()
+    ? API_URL + id
+    : `${API_URL}?id=eq.${id}&${API_KEY}`;
   await fetch(url, {
     method: "DELETE",
     headers: {

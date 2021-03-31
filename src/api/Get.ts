@@ -1,12 +1,11 @@
 import { API_URL, API_KEY } from "../constants";
+import { isDevMode } from "../utils";
+
 /**
  * An async function that fetches the todo list items from JSON db
  */
 export const fetchTasks = async () => {
-  const url: string =
-    process.env.NODE_ENV === "development"
-      ? API_URL
-      : `${API_URL}?select=*&${API_KEY}`;
+  const url: string = isDevMode() ? API_URL : `${API_URL}?select=*&${API_KEY}`;
   const res: Response = await fetch(url);
   const data = await res.json();
   return data;
@@ -18,7 +17,7 @@ export const fetchTasks = async () => {
  *
  */
 export const fetchTask = async (id: number) => {
-  if (process.env.NODE_ENV === "development") {
+  if (isDevMode()) {
     const res: Response = await fetch(API_URL + id);
     const data = await res.json();
     return data;
