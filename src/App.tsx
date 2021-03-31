@@ -63,6 +63,7 @@ function App() {
     await res.json().then((data: ITask[]) => {
       if (res.ok) {
         setTasks([...tasks, data[0]]);
+        setShowAddTask(false);
       }
     });
   };
