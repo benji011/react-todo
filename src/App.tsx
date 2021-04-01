@@ -71,28 +71,7 @@ function App() {
   const toggleReminder = async (id: number) => {
     const task: ITask = await fetchTask(id);
     const updatedTask: ITask = { ...task, reminder: !task.reminder };
-    const res: Response = await updateTaskData(id, task, updatedTask);
-    if (isDevMode()) {
-      await res.json().then((data: ITask) => {
-        if (res.ok) {
-          setTasks(
-            tasks.map((task) =>
-              task.id === id ? { ...task, reminder: data.reminder } : task
-            )
-          );
-        }
-      });
-    } else {
-      await res.json().then((data: ITask[]) => {
-        if (res.ok) {
-          setTasks(
-            tasks.map((task) =>
-              task.id === id ? { ...task, reminder: data[0].reminder } : task
-            )
-          );
-        }
-      });
-    }
+    await updateTaskData(id, task, updatedTask, tasks, setTasks);
   };
 
   return (
